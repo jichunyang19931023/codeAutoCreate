@@ -1,0 +1,29 @@
+<idea-plugin>
+    <id>com.int.yt.plugin.id</id>
+    <name>CodeAutoCreate</name>
+    <version>1.0</version>
+    <vendor email="jichunyang@int-yt.com" url="http://www.yourco1mpany.com">Asiainfo</vendor>
+
+    <description>This plugin can help you create entity-related files</description>
+
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <action class="plugin.MyAnAction" id="codeCreate" text="Entity Code Auto Create">
+            <add-to-group group-id="WindowMenu" anchor="first"/>
+        </action>
+    </actions>
+
+</idea-plugin>
