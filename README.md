@@ -49,12 +49,11 @@ path.repository=packageName.entity.repository
 	--> controller
 		TestEntityController.java
 	--> service
-    	--> impl
-    		TestEntityServiceImpl.java
-    	TestEntityService.java
+    		--> impl
+    			TestEntityServiceImpl.java
+	TestEntityService.java
 	--> entity
-    	--> repository
+	--> repository
         	TestEntityRepository.java
-    	TestEntity.java
-            
+	TestEntity.java          
 ```
