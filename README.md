@@ -53,7 +53,7 @@ path.repository=packageName.entity.repository
     			TestEntityServiceImpl.java
 	TestEntityService.java
 	--> entity
-	--> repository
-        	TestEntityRepository.java
+		--> repository
+        		TestEntityRepository.java
 	TestEntity.java          
 ```
