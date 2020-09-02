@@ -57,3 +57,7 @@ path.repository=packageName.entity.repository
         		TestEntityRepository.java
 	TestEntity.java          
 ```
+
+插件的具体实现细节可以参考以下博客：
+
+https://blog.csdn.net/j1231230/article/details/108324263
