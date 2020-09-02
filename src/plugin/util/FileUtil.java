@@ -7,6 +7,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class FileUtil {
@@ -14,8 +15,9 @@ public class FileUtil {
     public static void createFile(Project project, PsiDirectory workDir, String fileName, String packagePath, String content, List<String> warnInfos) {
         String[] packageArray = packagePath.split("\\.");
         PsiDirectory serviceDirectory = workDir;
+        List<String> workDirList = Arrays.asList(workDir.getVirtualFile().getPath().split("/"));
         for (String packageStr : packageArray){
-            if (!workDir.getVirtualFile().getPath().contains(packageStr)){
+            if (!workDirList.contains(packageStr)){
                 // 如果目录不存在则创建
                 if (serviceDirectory.findSubdirectory(packageStr) == null){
                     serviceDirectory = serviceDirectory.createSubdirectory(packageStr);

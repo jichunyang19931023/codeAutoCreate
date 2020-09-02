@@ -58,7 +58,7 @@ public class ConfigDispose {
                 String servicePath = daoPackage.replace(entityPackageName, "service");
                 String serviceImplPath = daoPackage.replace(entityPackageName, "service.impl");
                 String controllerPath = daoPackage.replace(entityPackageName, "controller");
-                String repositoryPath = daoPackage.replace(entityPackageName, entityPackageName + ".repository");
+                String repositoryPath = daoPackage.concat(".repository");
                 List<String> configs = Arrays.asList("# 生成service文件的包", "path.service=" + servicePath,
                         "# 生成serviceImpl文件的包", "path.service.impl=" + serviceImplPath,
                         "# 生成controller文件的包", "path.controller=" + controllerPath,
