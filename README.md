@@ -44,4 +44,20 @@ path.repository=packageName.entity.repository
 
 本插件默认生成的目录结构如下所示：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200902111339741.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2oxMjMxMjMw,size_16,color_FFFFFF,t_70#pic_center)
+```
+--> package name
+	--> controller
+		TestEntityController.java
+	--> service
+    		--> impl
+    			TestEntityServiceImpl.java
+	TestEntityService.java
+	--> entity
+		--> repository
+        		TestEntityRepository.java
+	TestEntity.java          
+```
+
+插件的具体实现细节可以参考以下博客：
+
+https://blog.csdn.net/j1231230/article/details/108324263
