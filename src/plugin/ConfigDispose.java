@@ -1,6 +1,7 @@
 package plugin;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.PropertiesUtil;
 import com.intellij.psi.*;
 
@@ -19,6 +20,8 @@ public class ConfigDispose {
         Map<String, String> configPath = new HashMap<>();
         String basePath = project.getBasePath();
         Path path = Paths.get(basePath + "/class-auto-create-config.properties");
+        // 如果配置文件已经存在，则读取默认配置项
+        // 如果修改配置文件，需要重新 Build 后再运行插件才可生效
         if (path.toFile().exists()) {
             try {
                 Map<String, String> properties = PropertiesUtil.loadProperties(new FileReader(path.toFile()));
@@ -39,7 +42,7 @@ public class ConfigDispose {
                     }
                 });
             } catch (IOException e) {
-                System.out.println("加载配置文件失败");
+                Messages.showMessageDialog(project, "加载配置文件class-auto-create-config.properties失败：\n" + e.getMessage(), "Plugin Error", Messages.getErrorIcon());
             }
         } else {
             // 配置文件不存在，在项目目录下创建配置文件
@@ -68,7 +71,7 @@ public class ConfigDispose {
                 configPath.put("controller", controllerPath);
                 configPath.put("repository", repositoryPath);
             } catch (IOException e) {
-                System.out.println("创建配置文件失败");
+                Messages.showMessageDialog(project, "创建配置文件class-auto-create-config.properties失败：\n" + e.getMessage(), "Plugin Error", Messages.getErrorIcon());
             }
         }
         return configPath;

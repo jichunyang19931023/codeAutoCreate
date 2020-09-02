@@ -8,6 +8,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MyAnAction extends AnAction {
@@ -18,43 +21,55 @@ public class MyAnAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
-        // 获取需要处理的entity类
-        PsiClass aClass = this.getEditingClass(anActionEvent);
-        if (null == aClass) {
-            return;
-        }
-        // 如果没有被Entity注解，则不生成
-        if (null == aClass.getAnnotation("javax.persistence.Entity")) {
-            return;
-        }
-
-        // 获取当前实体所在目录
-        PsiDirectory psiDirectory = aClass.getContainingFile().getContainingDirectory();
-        // 目录层次不得大于5
-        for (int i = 0; i < 3; i++){
-            if (psiDirectory.getName().contains("entity") || psiDirectory.getName().contains("domain")){
-                workDir = psiDirectory.getParentDirectory();
-                break;
+        try {
+            // 获取需要处理的entity类
+            PsiClass aClass = this.getEditingClass(anActionEvent);
+            if (null == aClass) {
+                Messages.showMessageDialog(project, "需要处理的entity实体类必须处于打开状态！", "Plugin Warning", Messages.getWarningIcon());
+                return;
             }
-            psiDirectory = psiDirectory.getParentDirectory();
-        }
-        if (workDir == null){
-            Messages.showMessageDialog(project, "entity所在目录层次不得大于3", "Plugin Error", Messages.getErrorIcon());
-        }
+            // 如果没有被Entity注解，则不生成
+            if (null == aClass.getAnnotation("javax.persistence.Entity")) {
+                Messages.showMessageDialog(project, "entity实体类必须被Entity注解！", "Plugin Warning", Messages.getWarningIcon());
+                return;
+            }
 
-        Map<String, String> configMap = ConfigDispose.getConfigPath(project, aClass);
+            // 获取当前实体所在目录
+            PsiDirectory psiDirectory = aClass.getContainingFile().getContainingDirectory();
+            // 目录层次不得大于3
+            for (int i = 0; i < 3; i++) {
+                if (psiDirectory.getName().contains("entity") || psiDirectory.getName().contains("domain")) {
+                    workDir = psiDirectory.getParentDirectory();
+                    break;
+                }
+                psiDirectory = psiDirectory.getParentDirectory();
+            }
+            if (workDir == null) {
+                Messages.showMessageDialog(project, "entity实体类所在目录层次不得大于3", "Plugin Error", Messages.getErrorIcon());
+                return;
+            }
 
-        try{
+            Map<String, String> configMap = ConfigDispose.getConfigPath(project, aClass);
+
+            List<String> warnInfos = new ArrayList<>();
             // 自动创建服务文件
-            ClassCreator.createServiceFile(workDir, project, aClass, configMap);
+            ClassCreator.createServiceFile(workDir, project, aClass, configMap, warnInfos);
             // 自动创建服务实现文件
-            ClassCreator.createServiceImplFile(workDir, project, aClass, configMap);
+            ClassCreator.createServiceImplFile(workDir, project, aClass, configMap, warnInfos);
             // 自动创建控制器文件
-            ClassCreator.createControllerFile(workDir, project, aClass, configMap);
+            ClassCreator.createControllerFile(workDir, project, aClass, configMap, warnInfos);
             // 自动创建repository文件
-            ClassCreator.createRepositoryFile(workDir, project, aClass, configMap);
-            Messages.showMessageDialog(project, "全部文件创建成功！", "Plugin Success", Messages.getInformationIcon());
-        } catch (Exception e){
+            ClassCreator.createRepositoryFile(workDir, project, aClass, configMap, warnInfos);
+            StringBuilder warnMsg = new StringBuilder();
+            warnInfos.forEach((item) -> {
+                warnMsg.append(item).append("\n");
+            });
+            String msg = "Result:\n全部文件创建成功！";
+            if (warnMsg.length() > 0){
+                msg = "Warning:\n" + warnMsg + "\n" + msg;
+            }
+            Messages.showMessageDialog(project, msg, "Plugin Success", Messages.getInformationIcon());
+        } catch (Exception e) {
             Messages.showMessageDialog(project, e.getMessage(), "Plugin Error", Messages.getErrorIcon());
         }
     }
