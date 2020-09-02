@@ -36,9 +36,11 @@ path.controller=packageName.controller
 path.repository=packageName.entity.repository
  
 ```
-1.对于 entity 包，暂时只支持命名为 entity 和 domain。
+1.对于 entity 包，暂时只支持命名为 entity 和 domain，实体类所在的目录层次不得大于3。
 
-2.可以对配置文件进行修改，删除默认生成的代码，重新 Build Module 后再运行插件即可安装配置生成指定目录结构的文件。
+2.可以对配置文件进行修改，重新 Build Module 后再运行插件即可安装配置生成指定目录结构的文件。
+
+3.如果对应的文件已经存在，为了安全起见，插件会将旧的文件重命名为原文件名.java.old。
 
 本插件默认生成的目录结构如下所示：
 
