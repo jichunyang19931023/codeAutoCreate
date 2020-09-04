@@ -2,7 +2,7 @@
 # codeAutoCreate
 This plugin can help you create entity-related files.
 
-本插件可以帮助生成和 entity 相关的文件，包括 Respository，Service，ServiceImpl 以及Controller 类。
+本插件可以帮助生成和 entity 相关的文件，包括 Respository，Service，ServiceImpl 以及Controller 类，针对 Spring Data JPA 开发。
 
 假设我们的 Entity 类为 TestEntity.java，插件生效的前提条件是，该类必须标注 Entity 注解并且确保这个类在编辑器中是当前正在编辑的类。
 
